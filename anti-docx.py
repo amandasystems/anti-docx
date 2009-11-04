@@ -3,7 +3,7 @@
 #
 # Please, feel free to do what you want with this code. It is way too short
 # for a proper license. :)
-import zipfile, sys
+import zipfile, sys, textwrap
 from xml.sax import parse, ContentHandler
 
 def extract_document(fn):
@@ -47,8 +47,9 @@ def get_word_paragraphs(xmlfile):
 
 wordfile= sys.argv[1]
 
+wrapper = textwrap.TextWrapper()
 for a in get_word_paragraphs(extract_document(wordfile)):
-    print(a)
+    print(wrapper.fill(a))
 
 
 
