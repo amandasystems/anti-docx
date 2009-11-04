@@ -1,0 +1,2 @@
+anti-docx is a free docx-to-text converter in the spirit of antiword. It has no
+dependencies except python 3.1 and the standard library.
