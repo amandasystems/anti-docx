@@ -5,6 +5,7 @@
 # for a proper license. :)
 import zipfile, sys, textwrap
 from xml.sax import parse, ContentHandler
+from optparse import OptionParser
 
 def extract_document(fn):
     """return a file pointer to the XML file in the .docx 
@@ -45,11 +46,35 @@ def get_word_paragraphs(xmlfile):
     parse(xmlfile, handler)
     return handler.paragraphs
 
-wordfile= sys.argv[1]
 
-wrapper = textwrap.TextWrapper()
-for a in get_word_paragraphs(extract_document(wordfile)):
-    print(wrapper.fill(a))
+def main():
+    parser = OptionParser()
+
+    parser.add_option("-w", "--wrap-lines",
+                      action="store_true", dest="wraplines", default=False,
+                      help="wrap long lines in output")
+
+    (options, args) = parser.parse_args()
+
+    if len(args) != 1:
+        parser.error("incorrect number of arguments (did you specify a file name?)")
+
+    filename = args[0]
+
+    wrapper = textwrap.TextWrapper()
+
+    for a in get_word_paragraphs(extract_document(filename)):
+        if options.wraplines:
+            print(wrapper.fill(a))
+        else:
+            print(a)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
 
 
 
